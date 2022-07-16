@@ -1,0 +1,11 @@
+C:\TaskManagmet\TaskManagment\TaskManagmentSystem\DAL\bin\Debug\DAL.dll.config
+C:\TaskManagmet\TaskManagment\TaskManagmentSystem\DAL\bin\Debug\DAL.dll
+C:\TaskManagmet\TaskManagment\TaskManagmentSystem\DAL\bin\Debug\DAL.pdb
+C:\TaskManagmet\TaskManagment\TaskManagmentSystem\DAL\bin\Debug\Shared.dll
+C:\TaskManagmet\TaskManagment\TaskManagmentSystem\DAL\bin\Debug\Shared.pdb
+C:\TaskManagmet\TaskManagment\TaskManagmentSystem\DAL\bin\Debug\Shared.dll.config
+C:\TaskManagmet\TaskManagment\TaskManagmentSystem\DAL\obj\Debug\DAL.csprojAssemblyReference.cache
+C:\TaskManagmet\TaskManagment\TaskManagmentSystem\DAL\obj\Debug\DAL.csproj.CoreCompileInputs.cache
+C:\TaskManagmet\TaskManagment\TaskManagmentSystem\DAL\obj\Debug\DAL.csproj.CopyComplete
+C:\TaskManagmet\TaskManagment\TaskManagmentSystem\DAL\obj\Debug\DAL.dll
+C:\TaskManagmet\TaskManagment\TaskManagmentSystem\DAL\obj\Debug\DAL.pdb

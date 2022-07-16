@@ -1,0 +1,13 @@
+C:\TaskManagmet\TaskManagment\TaskManagmentSystem\Repository\obj\Debug\Repository.csprojAssemblyReference.cache
+C:\TaskManagmet\TaskManagment\TaskManagmentSystem\Repository\obj\Debug\Repository.csproj.CoreCompileInputs.cache
+C:\TaskManagmet\TaskManagment\TaskManagmentSystem\Repository\bin\Debug\Repository.dll
+C:\TaskManagmet\TaskManagment\TaskManagmentSystem\Repository\bin\Debug\Repository.pdb
+C:\TaskManagmet\TaskManagment\TaskManagmentSystem\Repository\bin\Debug\DAL.dll
+C:\TaskManagmet\TaskManagment\TaskManagmentSystem\Repository\bin\Debug\Shared.dll
+C:\TaskManagmet\TaskManagment\TaskManagmentSystem\Repository\bin\Debug\DAL.pdb
+C:\TaskManagmet\TaskManagment\TaskManagmentSystem\Repository\bin\Debug\DAL.dll.config
+C:\TaskManagmet\TaskManagment\TaskManagmentSystem\Repository\bin\Debug\Shared.pdb
+C:\TaskManagmet\TaskManagment\TaskManagmentSystem\Repository\bin\Debug\Shared.dll.config
+C:\TaskManagmet\TaskManagment\TaskManagmentSystem\Repository\obj\Debug\Repository.csproj.CopyComplete
+C:\TaskManagmet\TaskManagment\TaskManagmentSystem\Repository\obj\Debug\Repository.dll
+C:\TaskManagmet\TaskManagment\TaskManagmentSystem\Repository\obj\Debug\Repository.pdb

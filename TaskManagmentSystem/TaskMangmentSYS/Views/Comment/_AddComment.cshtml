@@ -1,0 +1,51 @@
+﻿@{
+    Layout = null;
+
+   
+        ViewBag.Title = "Add Comment";
+        Model.Comments.TaskID = ViewBag.TaskID;
+
+    }
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Add Task</title>
+
+        <link href='https://fonts.googleapis.com/css?family=Nunito:400,300' rel='stylesheet' type='text/css'>
+        <link rel="stylesheet" href="~/Content/addTask.css">
+    </head>
+    @model TaskMangmentSYS.Models.TaskCommentModel
+
+
+@using (Html.BeginForm("AddComment", "Comment", FormMethod.Post, new { @style= " max-width: 100% !important ;" }))
+
+{
+        @Html.AntiForgeryToken()
+        <h1>Add Comment</h1>
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.Comments.TaskID)
+        <fieldset>
+            <legend><span class="number">1</span> Comment Info</legend>
+            <label for="name" class="labelTask">ReminderDate</label>
+            @Html.EditorFor(model => model.Comments.ReminderDate, new { id = "name", name = "user_name" })
+            @Html.ValidationMessageFor(model => model.Comments.ReminderDate, "", new { @class = "text-danger" })
+
+            <label for="bio" class="labelTask">Comment</label>
+            @Html.TextAreaFor(model => model.Comments.Comment, new { htmlAttributes = new { id = "bio", name = "user_bio" } })
+            @Html.ValidationMessageFor(model => model.Comments.Comment, "", new { @class = "text-danger" })
+            <label for="job" class="labelTask">Type</label>
+            @Html.DropDownListFor(model => model.Comments.Type, ((List<Shared.CommentType>)ViewData["CommentType"]).Select(m => new SelectListItem { Text = m.Name, Value = m.ID.ToString() }), new { htmlAttributes = new { id = "job", name = "user_job" } })
+            @Html.ValidationMessageFor(model => model.Comments.Type, "", new { @class = "text-danger" })
+
+            <div>
+                <button type="submit">Create</button>
+            </div>
+
+        </fieldset>
+
+
+    }
+
+
+
+

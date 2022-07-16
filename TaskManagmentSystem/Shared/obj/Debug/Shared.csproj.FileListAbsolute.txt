@@ -1,0 +1,7 @@
+C:\TaskManagmet\TaskManagment\TaskManagmentSystem\Shared\bin\Debug\Shared.dll.config
+C:\TaskManagmet\TaskManagment\TaskManagmentSystem\Shared\bin\Debug\Shared.dll
+C:\TaskManagmet\TaskManagment\TaskManagmentSystem\Shared\bin\Debug\Shared.pdb
+C:\TaskManagmet\TaskManagment\TaskManagmentSystem\Shared\obj\Debug\Shared.csprojAssemblyReference.cache
+C:\TaskManagmet\TaskManagment\TaskManagmentSystem\Shared\obj\Debug\Shared.csproj.CoreCompileInputs.cache
+C:\TaskManagmet\TaskManagment\TaskManagmentSystem\Shared\obj\Debug\Shared.dll
+C:\TaskManagmet\TaskManagment\TaskManagmentSystem\Shared\obj\Debug\Shared.pdb

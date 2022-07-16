@@ -1,0 +1,28 @@
+﻿@{
+    Layout = null;
+
+
+    ViewBag.Title = "View Task";
+    ViewBag.TaskID= Model.Tasks.ID;
+}
+
+    @model TaskMangmentSYS.Models.TaskCommentModel
+<head>
+    <link rel="stylesheet" href="~/Content/Tabs.css">
+</head>
+<div class="tabs">
+    <input type="radio" name="tabs" id="tabone" checked="checked">
+    <label for="tabone" class="tablabel">View Task</label>
+    <div class="tab">
+        @Html.Partial("_TaskView", Model)
+    </div>
+    <input type="radio" name="tabs" id="tabtwo">
+    <label for="tabtwo" class="tablabel">View Comments</label>
+    <div class="tab">
+        @Html.Partial("~/Views/Comment/_ViewComment.cshtml")
+    </div>
+</div>
+
+
+
+

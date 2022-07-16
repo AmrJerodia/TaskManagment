@@ -1,0 +1,35 @@
+﻿@using Microsoft.AspNet.Identity
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <link rel="stylesheet" href="~/Content/navigationBar.css">
+    <link rel="stylesheet" href="~/Content/foundation.css">
+</head>
+<body>
+<nav class="top-bar" data-topbar>
+    <ul class="title-area">
+        <li class="name"><h1><a href="#">Task Management </a></h1>
+        </li>
+        <li class="toggle-topbar menu-icon"><a href="#">Menu</a></li>
+    </ul>
+    <section class="top-bar-section">
+        <ul class="left">
+            <li>@Html.ActionLink("Add Task", "AddTask", "Task")</li>
+            <li>@Html.ActionLink("Search for Comment", "SearchForComments", "Comment")</li>
+
+        </ul>
+        <ul class="right">
+            @Html.Partial("_LoginPartial")
+        </ul>
+    </section>
+</nav>
+
+<div>
+    @RenderBody()
+</div>
+@Scripts.Render("~/bundles/jquery")
+</body>
+</html>
+

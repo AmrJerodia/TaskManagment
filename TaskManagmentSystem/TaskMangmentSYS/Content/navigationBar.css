@@ -1,0 +1,10 @@
+﻿h3 {
+    color: #fff !important;
+}
+@media only screen and (min-width: 641px) {
+    .dropdown-wrapper {
+        background-color: #adf4c2 !important;
+        width: 540px !important;
+        padding: 10px 0;
+    }
+}

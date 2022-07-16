@@ -1,0 +1,46 @@
+﻿@{
+    Layout = null;
+}
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Task</title>
+
+    <link href='https://fonts.googleapis.com/css?family=Nunito:400,300' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="~/Content/addTask.css">
+</head>
+@model TaskMangmentSYS.Models.TaskCommentModel
+
+
+@Html.AntiForgeryToken()
+<h1>View Task</h1>
+@Html.ValidationSummary(true, "", new { @class = "text-danger" })
+<fieldset>
+    <legend><span class="number">1</span> Task Info</legend>
+    <label for="name" class="labelTask">Required By Date</label>
+    @Html.TextBoxFor(model => model.Tasks.RequiredByDate, "{0:dd-MM-yyyy}", new { id = "name", name = "user_name", disabled = "disabled" })
+ 
+    <label for="bio" class="labelTask">Description</label>
+    @Html.TextAreaFor(model => model.Tasks.Description,  new { id = "bio", name = "user_bio", disabled = "disabled" } )
+   <label for="job" class="labelTask">Status</label>
+    @Html.TextBoxFor(model => model.Tasks.Status,  new { id = "job", name = "user_job", disabled = "disabled"  })
+   
+    <label for="Type" class="labelTask">Type</label>
+    @Html.TextBoxFor(model => model.Tasks.Type,  new { id = "type", name = "type_job", disabled = "disabled"  })
+  
+    <label for="Assigned" class="labelTask">AssignedTo</label>
+    @Html.TextBoxFor(model => model.Tasks.AssignedTo,  new { id = "assigned", name = "assigned", disabled = "disabled"  })
+    <label for="Assigned" class="labelTask">Next Action Date</label>
+    @Html.TextBoxFor(model => model.Tasks.NextActionDate, "{0:dd-MM-yyyy}", new { id = "next", name = "next", disabled = "disabled"  })
+
+
+    
+</fieldset>
+
+
+
+
+
+
+
+

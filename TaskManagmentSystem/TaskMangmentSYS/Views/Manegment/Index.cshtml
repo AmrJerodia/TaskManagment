@@ -1,0 +1,52 @@
+﻿@model TaskMangmentSYS.Models.SearchTasksModel
+@{
+    Layout = "~/Views/Shared/_MyLayout.cshtml";
+
+}
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard </title>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.7.1.min.js"></script>
+    <link href='https://fonts.googleapis.com/css?family=Nunito:400,300' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="~/Content/ViewComments.css">
+    <link rel="stylesheet" href="~/Content/addTask.css">
+</head>
+
+
+@using (Html.BeginForm())
+
+{
+ 
+<h1>Dashboard</h1>
+   
+    <fieldset>
+        <legend><span class="number">1</span> Search Info</legend>
+
+        <label for="job" class="labelTask">Date From</label>
+        @Html.EditorFor(model => model.StartTime, new { id = "name", name = "user_name" })
+       
+        <label for="name" class="labelTask">Date To</label>
+        @Html.EditorFor(model => model.EndTime, new { id = "name", name = "user_name" })
+
+        <div>
+            <button type="submit">Search</button>
+        </div>
+
+    </fieldset>
+
+
+}
+<div id="searchResults">
+</div>
+<script>
+
+    var url = '@Url.Action("Search", "Manegment")';
+    $('form').submit(function() {
+
+        var form = $(this).serialize();
+        $('#searchResults').load(url, form);
+        return false; // prevent the default submit action
+    });
+
+</script>

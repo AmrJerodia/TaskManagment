@@ -1,0 +1,78 @@
+﻿@using Shared
+@{
+    Layout = null;
+
+    var Comments = ViewData["AllComments"] as List<Comments>;
+}
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Task</title>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.7.1.min.js"></script>
+    <link href='https://fonts.googleapis.com/css?family=Nunito:400,300' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="~/Content/ViewComments.css">
+</head>
+
+
+@Html.AntiForgeryToken()
+<h1>View Comment</h1>
+<table class="container">
+    <thead>
+    <tr>
+        <th><h1>Comment</h1></th>
+        <th><h1>DateAdded</h1></th>
+        <th><h1>Reminder Date</h1></th>
+        <th><h1>Type</h1></th>
+        <th><h1>Action</h1></th>
+
+    </tr>
+    </thead>
+    <tbody>
+    @if (Comments != null)
+    {
+        foreach (var comment in Comments)
+        {
+            <tr>
+                <td>
+                    @Html.TextAreaFor(model => comment.Comment, new { disabled = "disabled" })
+                </td>
+                <td>
+                    @Html.TextBoxFor(model => comment.DateAdded, "{0:dd-MM-yyyy}",new { disabled = "disabled" })
+                </td>
+                <td>
+                    @if (comment.ReminderDate != null)
+                    {
+                        @Html.TextBoxFor(model => comment.ReminderDate.Value, "{0:dd-MM-yyyy}", new {disabled = "disabled"})
+                    }
+                </td>
+                <td>
+                    @Html.TextBoxFor(model => comment.Type, new { disabled = "disabled" })
+                </td>
+                <td>
+                    <button type="submit" onclick="location.href = '@Url.Action("DeleteComment", "Comment", comment)'">Delete</button>
+                    <button type="submit" onclick="update(@comment.ID);">Update</button>
+
+                </td>
+
+
+            </tr>
+            <div id="updateform"></div>
+
+        }
+    }
+
+
+    </tbody>
+</table>
+<script>
+
+    var url = '@Url.Action("LoadUpdate", "Comment")';
+    function update(id) {
+        url = url + "/" + id;
+        $('#updateform').load(url);
+         // prevent the default submit action
+    };
+
+</script>
+@Html.Partial("~/Views/Comment/_AddComment.cshtml")

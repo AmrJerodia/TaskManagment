@@ -1,0 +1,58 @@
+﻿@{
+    Layout = "~/Views/Shared/_MyLayout.cshtml";
+
+}
+@model Shared.Comments
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Commnets</title>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.7.1.min.js"></script>
+    <link href='https://fonts.googleapis.com/css?family=Nunito:400,300' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="~/Content/ViewComments.css">
+    <link rel="stylesheet" href="~/Content/addTask.css">
+</head>
+
+
+@using (Html.BeginForm())
+
+{
+
+    <h1>Search For Comment</h1>
+
+    <fieldset>
+        <legend><span class="number">1</span> Comment Info</legend>
+
+        <label for="job" class="labelTask">Date Added</label>
+        @Html.EditorFor(model => model.DateAdded, new { id = "name", name = "user_name" })
+
+        <label for="name" class="labelTask">ReminderDate</label>
+        @Html.EditorFor(model => model.ReminderDate, new { id = "name", name = "user_name" })
+
+        <label for="bio" class="labelTask">Comment</label>
+        @Html.TextAreaFor(model => model.Comment, new { htmlAttributes = new { id = "bio", name = "user_bio" } })
+        <label for="job" class="labelTask">Type</label>
+        @Html.DropDownListFor(model => model.Type, ((List<Shared.CommentType>)ViewData["CommentType"]).Select(m => new SelectListItem { Text = m.Name, Value = m.ID.ToString() }), new { htmlAttributes = new { id = "job", name = "user_job" } })
+
+        <div>
+            <button type="submit">Search</button>
+        </div>
+
+    </fieldset>
+
+
+}
+<div id="searchResults">
+</div>
+<script>
+
+    var url = '@Url.Action("Searcher", "Comment")';
+    $('form').submit(function() {
+
+        var form = $(this).serialize();
+        $('#searchResults').load(url, form);
+        return false; // prevent the default submit action
+    });
+
+</script>

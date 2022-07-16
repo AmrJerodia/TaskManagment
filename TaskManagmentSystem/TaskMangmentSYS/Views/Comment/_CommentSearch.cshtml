@@ -1,0 +1,63 @@
+﻿@using Shared
+@model TaskMangmentSYS.Models.SearchTasksModel
+@{
+    Layout = null;
+
+}
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Task</title>
+
+    <link href='https://fonts.googleapis.com/css?family=Nunito:400,300' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="~/Content/ViewComments.css">
+</head>
+
+
+@Html.AntiForgeryToken()
+<h1>View Comment</h1>
+<table id="searchResult" class="container">
+    <thead>
+        <tr>
+            <th><h1>Comment</h1></th>
+            <th><h1>DateAdded</h1></th>
+            <th><h1>Reminder Date</h1></th>
+            <th><h1>Type</h1></th>
+
+
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model.Comments != null)
+        {
+            foreach (var comment in Model.Comments)
+            {
+                <tr ondblclick="location.href = '@Url.Action("ViewTask", "Task", new{id=comment.TaskID})'">
+                    <td>
+                        @Html.TextAreaFor(model => comment.Comment, new { disabled = "disabled" })
+                    </td>
+                    <td>
+                        @Html.TextBoxFor(model => comment.DateAdded, "{0:dd-MM-yyyy}", new { disabled = "disabled" })
+                    </td>
+                    <td>
+                        @if (comment.ReminderDate != null)
+                        {
+                            @Html.TextBoxFor(model => comment.ReminderDate.Value, "{0:dd-MM-yyyy}", new { disabled = "disabled" })
+                        }
+                    </td>
+                    <td>
+                        @Html.TextBoxFor(model => comment.Type, new { disabled = "disabled" })
+                    </td>
+
+
+                </tr>
+
+            }
+        }
+
+
+    </tbody>
+</table>
+
+

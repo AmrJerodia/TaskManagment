@@ -1,0 +1,77 @@
+﻿@using Shared
+@model TaskMangmentSYS.Models.SearchTasksModel
+@{
+    Layout = null;
+
+}
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Task</title>
+
+    <link href='https://fonts.googleapis.com/css?family=Nunito:400,300' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="~/Content/ViewComments.css">
+</head>
+
+
+@Html.AntiForgeryToken()
+<h1>View Tasks</h1>
+<table id="searchResult" class="container">
+    <thead>
+        <tr>
+            <th><h1>CreatedDate</h1></th>
+            <th><h1>AssignedTo</h1></th>
+            <th><h1>Status</h1></th>
+            <th><h1>Type</h1></th>
+            <th><h1>RequiredByDate</h1></th>
+            <th><h1>NextActionDate</h1></th>
+            
+            
+
+
+        </tr>
+    </thead>
+    <tbody>
+    @if (Model.Tasks != null)
+    {
+        foreach (var task in Model.Tasks)
+        {
+        <tr ondblclick="location.href = '@Url.Action("ViewTask", "Task", new{id=task.ID})'">
+            <td>
+                @Html.TextBoxFor(model => task.CreatedDate, "{0:dd-MM-yyyy}", new { disabled = "disabled" })
+            </td>
+            <td>
+                @Html.TextBoxFor(model => task.AssignedTo, new { disabled = "disabled" })
+            </td>
+            <td>
+                @Html.TextBoxFor(model => task.Status, new { disabled = "disabled" })
+            </td>
+            <td>
+                @Html.TextBoxFor(model => task.Type, new { disabled = "disabled" })
+            </td>
+            <td>
+                @if (task.RequiredByDate != null)
+                {
+                    @Html.TextBoxFor(model => task.RequiredByDate.Value, "{0:dd-MM-yyyy}", new { disabled = "disabled" })
+                }
+            </td>
+            <td>
+            @if (task.NextActionDate != null)
+            {
+                @Html.TextBoxFor(model => task.NextActionDate, "{0:dd-MM-yyyy}", new {disabled = "disabled"})
+            }
+            </td>
+
+
+        </tr>
+
+        }
+    }
+
+
+    </tbody>
+</table>
+
+
+

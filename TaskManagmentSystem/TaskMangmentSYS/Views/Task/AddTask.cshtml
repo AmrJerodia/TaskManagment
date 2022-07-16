@@ -1,0 +1,60 @@
+﻿@{
+    Layout = null;
+}
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Task</title>
+   
+    <link href='https://fonts.googleapis.com/css?family=Nunito:400,300' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="~/Content/addTask.css">
+</head>
+@model TaskMangmentSYS.Models.TaskCommentModel
+
+@{
+    ViewBag.Title = "AddTask";
+
+}
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <h1>Add Task</h1>
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <fieldset>
+        <legend><span class="number">1</span> Task Info</legend>
+        <label for="name" class="labelTask">Required By Date</label>
+        @Html.EditorFor(model => model.Tasks.RequiredByDate, new {id = "name", name = "user_name"})
+        @Html.ValidationMessageFor(model => model.Tasks.RequiredByDate, "", new {@class = "text-danger"})
+
+        <label for="bio" class="labelTask">Description</label>
+        @Html.TextAreaFor(model => model.Tasks.Description, new {htmlAttributes = new {id = "bio", name = "user_bio"}})
+        @Html.ValidationMessageFor(model => model.Tasks.Description, "", new {@class = "text-danger"})
+        <label for="job" class="labelTask">Status</label>
+        @Html.DropDownListFor(model => model.Tasks.Status, ((List<Shared.TaskStatus>) ViewData["status"]).Select(m => new SelectListItem {Text = m.Name, Value = m.ID.ToString()}), new {htmlAttributes = new {id = "job", name = "user_job"}})
+        @Html.ValidationMessageFor(model => model.Tasks.Status, "", new {@class = "text-danger"})
+
+        <label for="Type" class="labelTask">Type</label>
+        @Html.DropDownListFor(model => model.Tasks.Type, ((List<Shared.TaskType>) ViewData["types"]).Select(m => new SelectListItem {Text = m.Name, Value = m.ID.ToString()}), new {htmlAttributes = new {id = "type", name = "type_job"}})
+        @Html.ValidationMessageFor(model => model.Tasks.AssignedTo, "", new {@class = "text-danger"})
+
+        <label for="Assigned" class="labelTask">AssignedTo</label>
+        @Html.DropDownListFor(model => model.Tasks.AssignedTo, ((List<string>) ViewBag.users).Select(m => new SelectListItem {Text = m, Value = m}), new {htmlAttributes = new {id = "assigned", name = "assigned"}})
+        @Html.ValidationMessageFor(model => model.Tasks.AssignedTo, "", new {@class = "text-danger"})
+
+        <div >
+            <button type="submit">Create</button>
+        </div>
+
+    </fieldset>
+
+   
+}
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
+
+
