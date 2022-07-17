@@ -8,6 +8,11 @@ namespace DAL
     public class SqlDb
     {
         private  readonly string _connectionString = System.Configuration.ConfigurationManager.ConnectionStrings["AuthenticationDB"].ConnectionString;
+        /// <summary>
+        /// excute the sql (inser,delete,update) . it run on transaction to avoid multiple update on the same time . 
+        /// </summary>
+        /// <param name="cmd"></param>
+        /// <returns> id of inserted,deleted, updated value</returns>
         public  int ExecuteSqlTransaction(string cmd)
         {
             int modifier = 0;
@@ -57,6 +62,11 @@ namespace DAL
             return modifier;
 
         }
+        /// <summary>
+        /// return reuery result from Db 
+        /// </summary>
+        /// <param name="cmd"></param>
+        /// <returns> datatable of the readign record . </returns>
 
         public DataTable ExecuteSqlQuery(string cmd)
         {

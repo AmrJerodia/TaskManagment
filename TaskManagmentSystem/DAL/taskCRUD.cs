@@ -10,10 +10,13 @@ using TaskStatus = System.Threading.Tasks.TaskStatus;
 
 namespace DAL
 {
-   public  class taskCRUD: CRUD
+   public  class TaskCRUD: CRUD
     {
-        public taskCRUD() : base() { }
-
+        public TaskCRUD() : base() { }
+        /// <summary>
+        /// get a list of task status which is limited list 
+        /// </summary>
+        /// <returns> list of Taskstatus class</returns>
         public List<Shared.TaskStatus> GetStatuses()
         {
             string command = "select * from [TaskManagment].[dbo].[TaskStatus] ";
@@ -40,6 +43,10 @@ namespace DAL
             return taskStatus;
 
         }
+        /// <summary>
+        /// get a list of task types 
+        /// </summary>
+        /// <returns>list of TaskType class</returns>
         public List<Shared.TaskType> GeTasksTypes()
         {
             string command = "select * from [TaskManagment].[dbo].[TaskType] ";
@@ -62,7 +69,12 @@ namespace DAL
 
             return taskTypes;
         }
-
+        /// <summary>
+        /// search for all task that belogn to a specific period 
+        /// </summary>
+        /// <param name="from"></param>
+        /// <param name="to"></param>
+        /// <returns>list of task</returns>
         public List<Shared.Tasks> GetTaskByDate(DateTime? from, DateTime? to)
         {
             if (from == null && to == null) return null;
@@ -79,34 +91,38 @@ namespace DAL
                     : command + "[CreatedDate]  < '" + toDate + "'";
             }
             var dataTable = GetDb().ExecuteSqlQuery(command);
-            DateTime? ntdt = null;
-            DateTime? rddt = null;
+            DateTime? nextAction = null;
+            DateTime? Required = null;
             foreach (DataRow reader in dataTable.Rows)
             {
 
                 if (reader["NextActionDate"].GetType() != typeof(DBNull))
-                    ntdt = Convert.ToDateTime(reader["NextActionDate"]);
-                else ntdt = null;
+                    nextAction = Convert.ToDateTime(reader["NextActionDate"]);
+                else nextAction = null;
                 if (reader["RequiredByDate"].GetType() != typeof(DBNull))
-                    rddt = Convert.ToDateTime(reader["RequiredByDate"]);
-                else rddt = null;
+                    Required = Convert.ToDateTime(reader["RequiredByDate"]);
+                else Required = null;
                 tasks.Add(new Tasks()
                 {
                     ID = Convert.ToInt32(reader["ID"]),
                     CreatedDate = Convert.ToDateTime(reader["CreatedDate"]),
                     Description = reader["Description"].ToString(),
                     AssignedTo = reader["AssignedTo"].ToString(),
-                    RequiredByDate = rddt,
+                    RequiredByDate = Required,
                     Status = (TasksStatus)Convert.ToInt32(reader["Status"]),
                     Type = (TasksType)Convert.ToInt32(reader["Type"]),
-                    NextActionDate = ntdt
+                    NextActionDate = nextAction
                 });
             }
 
             return tasks;
 
         }
-
+        /// <summary>
+        /// search for all task that linked to specific comment 
+        /// </summary>
+        /// <param name="comment"></param>
+        /// <returns> list of task</returns>
         public List<Shared.Tasks> GetTasksByComment(Comments comment)
         {
             var reqDate = comment.ReminderDate != null ? comment.ReminderDate.Value.Date.ToString(CultureInfo.InvariantCulture) : string.Empty;
@@ -119,34 +135,38 @@ namespace DAL
             
             var dataTable = GetDb().ExecuteSqlQuery(command);
             var tasks = new List<Shared.Tasks>();
-            DateTime? ntdt = null;
-            DateTime? rddt = null;
+            DateTime? nextAction = null;
+            DateTime? required = null;
             foreach (DataRow reader in dataTable.Rows)
             {
 
                 if (reader["NextActionDate"].GetType() != typeof(DBNull))
-                    ntdt = Convert.ToDateTime(reader["NextActionDate"]);
-                else ntdt = null;
+                    nextAction = Convert.ToDateTime(reader["NextActionDate"]);
+                else nextAction = null;
                 if (reader["RequiredByDate"].GetType() != typeof(DBNull))
-                    rddt = Convert.ToDateTime(reader["RequiredByDate"]);
-                else rddt = null;
+                    required = Convert.ToDateTime(reader["RequiredByDate"]);
+                else required = null;
                 tasks.Add(new Tasks()
                 {
                     ID = Convert.ToInt32(reader["tid"]),
                     CreatedDate = Convert.ToDateTime(reader["CreatedDate"]),
                     Description = reader["Description"].ToString(),
                     AssignedTo = reader["AssignedTo"].ToString(),
-                    RequiredByDate = rddt,
+                    RequiredByDate = required,
                     Status = (TasksStatus) Convert.ToInt32(reader["Status"]),
                     Type = (TasksType) Convert.ToInt32(reader["Type"]),
-                    NextActionDate = ntdt
+                    NextActionDate = nextAction
                 });
             }
 
 
             return  tasks;
         }
-
+        /// <summary>
+        /// get task by Id 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>Task class</returns>
         public Tasks GetById(int id)
         {
             string command = "select * from [TaskManagment].[dbo].[Task] where [ID]=" + id;
@@ -169,20 +189,34 @@ namespace DAL
             return task;
 
         }
-
+        /// <summary>
+        /// insert the class to DB 
+        /// </summary>
+        /// <param name="taskclass"></param>
+        /// <returns>the inserted ID </returns>
         public int Add(Tasks taskclass)
         {
             var reqDate = taskclass.RequiredByDate != null ?"'"+ taskclass.RequiredByDate.Value.Date.ToString(CultureInfo.InvariantCulture)+"'" : "NULL";
             string command = @"INSERT INTO [TaskManagment].[dbo].[Task] ([CreatedDate],[RequiredByDate],[Description],[Status],[Type],[AssignedTo],[NextActionDate]) output INSERTED.ID values(GETDATE()," + reqDate + ",'" + taskclass.Description + "'," + (int)taskclass.Status + "," + (int)taskclass.Type + ",'" + taskclass.AssignedTo + "',null )";
            return GetDb().ExecuteSqlTransaction(command);
         }
-
+        /// <summary>
+        /// delete the object from the DB 
+        /// </summary>
+        /// <param name="taskclass"></param>
         public void Delete(Tasks taskclass)
         {
             string command = @"delete from [TaskManagment].[dbo].[Task] where ID=" + taskclass.ID;
             GetDb().ExecuteSqlTransaction(command);
         }
-
+        /// <summary>
+        /// update the NextActionDate column in the specific object that belogn to the comment 
+        /// note : it will only called after updating or inserting new comment which has reminderDate
+        /// </summary>
+        /// <param name="taskclass"></param>
+        /// <param name="taskId"></param>
+        /// <param name="commentTime"></param>
+        /// <returns>update record ID </returns>
         public int UpdateNextAction(Tasks taskclass, int taskId, DateTime commentTime)
         {
             var NextActionDate = commentTime != null ? "'"+commentTime.Date.ToString(CultureInfo.InvariantCulture)+"'" : "NULL";

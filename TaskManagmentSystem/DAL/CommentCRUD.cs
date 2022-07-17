@@ -11,19 +11,24 @@ namespace DAL
 {
     public class CommentCRUD: CRUD
     {
-        private taskCRUD _taskCrud;
-       public CommentCRUD() : base() {if(_taskCrud == null) _taskCrud=new taskCRUD(); }
-       public List<Shared.CommentType> GetCommentTypes()
+        private TaskCRUD _taskCrud;
+
+       public CommentCRUD() : base() {if(_taskCrud == null) _taskCrud=new TaskCRUD(); }
+        /// <summary>
+        /// get list of class CommentType
+        /// </summary>
+        /// <returns>List<Shared.CommentType></returns>
+        public List<Shared.CommentType> GetCommentTypes()
        {
            string command = "select * from [TaskManagment].[dbo].[CommentType] ";
-           var taskTypes = new List<Shared.CommentType>();
+           var commentTypes = new List<Shared.CommentType>();
            var dataTable = GetDb().ExecuteSqlQuery(command);
 
 
            foreach (DataRow reader in dataTable.Rows)
            {
 
-                taskTypes.Add(new Shared.CommentType()
+                commentTypes.Add(new Shared.CommentType()
                {
                    ID = Convert.ToInt32(reader["ID"]),
                    Name = reader["Name"].ToString()
@@ -34,28 +39,31 @@ namespace DAL
 
 
 
-           return taskTypes;
+           return commentTypes;
        }
-       public List<Shared.Comments> GetCommentsByComment(Comments comment)
+        /// <summary>
+        /// Search in the database view [CommentTaskView] and return the result based on the parameter comment
+        /// </summary>
+        /// <param name="comment"></param>
+        /// <returns>list of comments based on the search criteria </returns>
+        public List<Shared.Comments> GetCommentsByComment(Comments comment)
        {
-           var reqDate = comment.ReminderDate != null ? comment.ReminderDate.Value.Date.ToString(CultureInfo.InvariantCulture) : string.Empty;
-           var addedDate = comment.DateAdded != default(DateTime) ? comment.DateAdded.Date.ToString(CultureInfo.InvariantCulture) : string.Empty;
+           var reminder = comment.ReminderDate != null ? comment.ReminderDate.Value.Date.ToString(CultureInfo.InvariantCulture) : string.Empty;
+           var added = comment.DateAdded != default(DateTime) ? comment.DateAdded.Date.ToString(CultureInfo.InvariantCulture) : string.Empty;
 
            string command = @"select * from [TaskManagment].[dbo].[CommentTaskView] where[CommentType] = " + (int)comment.Type;
-           command = !string.IsNullOrEmpty(addedDate) ? command + " and [DateAdded] = '" + addedDate + "'" : command;
+           command = !string.IsNullOrEmpty(added) ? command + " and [DateAdded] = '" + added + "'" : command;
            command = comment.Comment != null ? command + " and Comment like '%" + comment.Comment + "%'" : command;
-           command = !string.IsNullOrEmpty(reqDate) ? command + " and [ReminderDate] = '" + reqDate + "'" : command;
+           command = !string.IsNullOrEmpty(reminder) ? command + " and [ReminderDate] = '" + reminder + "'" : command;
 
            var dataTable = GetDb().ExecuteSqlQuery(command);
            var commentsList = new List<Shared.Comments>();
            DateTime? dt = null;
             foreach (DataRow reader in dataTable.Rows)
             {
-
                 if (reader["ReminderDate"].GetType() != typeof(DBNull))
                     dt = Convert.ToDateTime(reader["ReminderDate"]);
-                else
-                    dt = null;
+                else dt = null;
                 commentsList.Add(new Comments()
                {
                    ID = Convert.ToInt32(reader["ID"]),
@@ -70,7 +78,11 @@ namespace DAL
 
             return commentsList;
        }
-
+        /// <summary>
+        /// get All the comments that belogn to the task selected .
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns> list of comments class</returns>
         public List<Comments> GetAllCommentsByTask(int id)
         {
             string command = "select * from [TaskManagment].[dbo].[CommentTaskView] where [tid]=" + id;
@@ -78,13 +90,13 @@ namespace DAL
             var dataTable = GetDb().ExecuteSqlQuery(command);
 
 
-            DateTime? rddt = null;
+            DateTime? reminder = null;
             foreach (DataRow reader in dataTable.Rows)
             {
 
                 if (reader["ReminderDate"].GetType() != typeof(DBNull))
-                    rddt = Convert.ToDateTime(reader["ReminderDate"]);
-                else rddt = null;
+                    reminder = Convert.ToDateTime(reader["ReminderDate"]);
+                else reminder = null;
                 comments.Add(new Comments
                 {
                     ID = Convert.ToInt32(reader["ID"]),
@@ -92,7 +104,7 @@ namespace DAL
                     DateAdded = Convert.ToDateTime(reader["DateAdded"]),
                     TaskID = Convert.ToInt32(reader["TaskID"]),
                     Type = (CommentsType)Convert.ToInt32(reader["CommentType"]),
-                    ReminderDate = rddt
+                    ReminderDate = reminder
 
                 });
             };
@@ -101,7 +113,11 @@ namespace DAL
 
             return comments;
         }
-
+        /// <summary>
+        /// get comment by Id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns> Comment class</returns>
         public Comments GetById(int id)
         {
             string command = "select * from [TaskManagment].[dbo].[Comment] where [ID]=" + id;
@@ -120,7 +136,11 @@ namespace DAL
 
             return comments;
         }
-
+        /// <summary>
+        /// insert comment to the database 
+        /// </summary>
+        /// <param name="commentClass"></param>
+        /// <returns> the inserted value ID </returns>
         public int Add(Comments commentClass)
         {
             var remDate = commentClass.ReminderDate != null ? "'"+commentClass.ReminderDate.Value.Date.ToString(CultureInfo.InvariantCulture)+"'" : "NULL";
@@ -133,18 +153,30 @@ namespace DAL
 
            return result;
         }
-
+        /// <summary>
+        /// delete the comment selected
+        /// </summary>
+        /// <param name="commentClass"></param>
         public void Delete(Comments commentClass)
         {
             string command = @"delete from [TaskManagment].[dbo].[Comment] where ID=" + commentClass.ID;
             GetDb().ExecuteSqlTransaction(command);
         }
-
+        /// <summary>
+        /// update comment based on comment selected  
+        /// </summary>
+        /// <param name="commentClass"></param>
+        /// <returns>the Id of the updated comment</returns>
         public int Update(Comments commentClass)
         {
             var remDate = commentClass.ReminderDate != null ?"'"+ commentClass.ReminderDate.Value.Date.ToString(CultureInfo.InvariantCulture) +"'": "NULL";
             string command = @"update  [TaskManagment].[dbo].[Comment] set[Comment]='" + commentClass.Comment + "',[ReminderDate]=" + remDate + ",[CommentType]=" + (int)commentClass.Type + " where ID=" + commentClass.ID;
-           return GetDb().ExecuteSqlTransaction(command);
+           int result= GetDb().ExecuteSqlTransaction(command);
+            if (commentClass.ReminderDate != null)
+            {
+                _taskCrud.UpdateNextAction(null, commentClass.TaskID, commentClass.ReminderDate.Value);
+            }
+            return result;
         }
     }
 }

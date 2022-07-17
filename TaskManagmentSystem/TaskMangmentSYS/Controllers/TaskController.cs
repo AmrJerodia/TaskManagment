@@ -12,7 +12,11 @@ namespace TaskMangmentSYS.Controllers
     public class TaskController : BaseController
     {
         // GET: Task
-       
+       /// <summary>
+       /// called the TaskRepo to get the task by ID and show it in the page .
+       /// </summary>
+       /// <param name="id"></param>
+       /// <returns></returns>
         [Authorize]
         public ActionResult ViewTask(int id)
         {
@@ -24,8 +28,11 @@ namespace TaskMangmentSYS.Controllers
             model.Comments = new Comments();
             return View(model);
         }
-     
 
+        /// <summary>
+        ///view page add Task  .
+        /// </summary>
+        /// <returns></returns>
         [Authorize]
         public ActionResult AddTask()
         {
@@ -36,7 +43,11 @@ namespace TaskMangmentSYS.Controllers
             return View();
         }
 
-
+        /// <summary>
+        /// called the TaskRepo to add the task after form has been submited  .
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns>redirect to page view task </returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize]
